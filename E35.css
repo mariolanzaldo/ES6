@@ -1,0 +1,51 @@
+.table {
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  border-collapse: collapse;
+  width: 100%;
+  white-space: nowrap;
+  background-color: white;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  padding: 8px;
+}
+
+.table td {
+  border-right: 1px slid #f8f8f8;
+  font-size: 14px;
+}
+
+.table-sortable th {
+  cursor: pointer;
+}
+
+.table thead th {
+  color: #ffffff;
+  background: #4FC3A1;
+}
+
+.table tbody tr:nth-child(odd) {
+  background-color: rgb(236, 245, 245);
+}
+
+.table-sortable .th-sort-asc::after {
+  content: "\25b4";
+}
+
+.table-sortable .th-sort-desc::after {
+  content: "\25be";
+}
+
+.table-sortable .th-sort-asc::after,
+.table-sortable .th-sort-desc::after {
+  margin-left: 5px;
+}
+
+.table-sortable .th-sort-asc,
+.table-sortable .th-sort-desc {
+  background-color: 0, 0, 0, 0.1;
+}

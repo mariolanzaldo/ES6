@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    display: flex;
+    margin: 20px;
+    border-radius: 0.5rem;
+    width: 200px;
+    justify-content: center;
+    background-color: darkgray;
+    transition: ease-in-out 0.3s;
+    cursor: pointer;
+}
+
+p:nth-of-type(odd):hover {
+    background-color: rgb(88, 86, 86);
+    transform: scale(0.9);
+}
+
+p:nth-of-type(even) {
+    display: none;
+    background-color: rgb(207, 93, 116);
+    justify-content: center;
+    align-items: center;
+}
