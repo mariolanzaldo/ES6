@@ -1,15 +1,13 @@
-String.prototype.reverse = function reverse() {
+String.prototype.reverse = function () {
     const self = this;
-    let reversedStr = '';
-
-    for (let character of self) {
-        reversedStr = character + reversedStr;
+    let len = self.length, result = "";
+    for (let i = 0; i <= len - 1; i++) {
+        result = result + self[len - i - 1];
     }
-
-    return reversedStr;
+    return result;
 }
 
-String.prototype.reverseWords = function reverseWords() {
+String.prototype.reverseWords = function () {
     const self = this;
     let splitWords = self.split(" ");
 
