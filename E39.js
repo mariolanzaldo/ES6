@@ -3,7 +3,7 @@ const result = document.querySelector('.test');
 
 input.addEventListener('blur', event => {
     const str = event.target.value.toLowerCase();
-    if (str < 4 || inputValidation(str)) {
+    if (str.length < 4 || inputValidation(str)) {
         result.textContent = 'Valid input';
     } else if (!inputValidation(str)) {
         result.textContent = 'Invalid input';
