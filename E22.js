@@ -10,6 +10,5 @@ const button = document.querySelector('.button');
 const div = document.querySelector('.colored');
 
 button.addEventListener('click', event => {
-    console.log('clicked');
     div.style.background = randColor();
 });
