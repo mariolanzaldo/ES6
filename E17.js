@@ -5,18 +5,16 @@ let candidate = {
         phone: '123-456-7890'
     },
     printName: function () {
-        const fullName = `The full name is: ${this.name.firstName} ${this.name.lastName}`;
+        const fullName = `${this.name.firstName} ${this.name.lastName}`;
         return fullName;
     }
 }
 
 const { name: { firstName, lastName } } = candidate
 
-const body = document.querySelector('#body');
-const info = body.querySelector('.info');
-const children = info.querySelectorAll('div');
+const children = document.querySelector('#body > .info').childNodes;
 
-const [div1, div2] = children;
+const [text, div1, text2, div2, text3] = children;
 
 div1.innerHTML = firstName;
 div2.innerHTML = candidate.printName();
