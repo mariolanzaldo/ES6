@@ -5,7 +5,7 @@ var candidate = {
         phone: '123-456-7890'
     },
     printName: function () {
-        const fullName = `The full name is: ${this.name.firstName} ${this.name.lastName}`;
+        const fullName = `${this.name.firstName} ${this.name.lastName}`;
         return fullName;
     }
 }
