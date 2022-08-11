@@ -15,7 +15,12 @@ let foo = (function () {
 
     }
 
-    return { bar, test };
+    function discoverSecretIdentity() {
+        secret();
+    }
+
+    return { bar, test, discoverSecretIdentity };
 })();
 foo.bar();
 foo.test();
+foo.discoverSecretIdentity();
