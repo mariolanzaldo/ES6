@@ -1,5 +1,12 @@
 function moveZeros(array) {
-    array = array.sort((a, b) => (a === 0) - (b === 0));
+    let prevZeroIndex = 0;
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] && array[i - 1] == 0) {
+            prevZeroIndex++;
+            array[prevZeroIndex] = array[i];
+            array[i] = 0;
+        }
+    }
     return array;
 }
 
