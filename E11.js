@@ -1,35 +1,61 @@
 const isObject = val => typeof val === 'object' && val;
 
+const arrayComparison = (value1, value2, key) => {
+    if (value1.length === value2.length) {
+        for (let i = 0; i < value1.length; i++) {
+            if (value1[i] !== value2[i]) return key;
+        }
+    } else {
+        return key;
+    }
+};
+
 function getDifference(obj1 = {}, obj2 = {}) {
-    const output = {};
+    let output = [];
 
     for (const key in obj1) {
         const value1 = obj1[key];
         const value2 = obj2[key];
-
-        if (isObject(value1) && Array.isArray(obj1)) {
-            output[key] = getDifference(value1, value2);
-        }
-        else if (value1 !== value2) {
-            output[key] = value1;
+        if (key in obj2) {
+            if (isObject(value1) && Array.isArray(value1)) {
+                output.push(arrayComparison(value1, value2, key));
+            }
+            else if (isObject(value1) && !Array.isArray(obj1)) {
+                const temp = getDifference(value1, value2);
+                if (temp[0]) output.push(key);
+            }
+            else if (value1 !== value2) {
+                output.push(key);
+            }
+        } else if (!(key in obj2)) {
+            output.push(key);
         }
     }
 
+    for (const key in obj2) {
+        if (!(key in obj1)) {
+            output.push(key);
+        }
+    }
+
+    output = output.filter(element => element != undefined);
     return output;
 }
 
 let obj1 = {
-    a: 'po',
-    b: 82,
-    c: [{ key: [null, 9] }]
+    // a: 'po',
+    // b: true,
+    c: { key: 'Jack' },
+    d: [1, 4]
 };
 
 let obj2 = {
     a: 'p',
-    b: 82,
-    c: [{ key: [true, 9] }]
+    b: true,
+    c: { key: 'Jack' },
+    d: [4]
 };
 
 const output = getDifference(obj1, obj2);
-console.log(`The difference between: ${JSON.stringify(obj1)}
-and ${JSON.stringify(obj1)} is...`, output);
+console.log(`The different properties between: ${JSON.stringify(obj1)}
+and ${JSON.stringify(obj2)} are...`, output);
