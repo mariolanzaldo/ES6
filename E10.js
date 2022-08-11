@@ -9,25 +9,11 @@ class Person {
         return fullName;
     }
 
-    async sendData(url) {
-
-        try {
-            let header = new Headers();
-            header.append('Accept', 'application/json');
-
-            let request = new Request(url, {
-                method: 'GET',
-                headers: header
-            })
-            const response = await fetch(request);
-            if (!response.ok) {
-                throw { status: response.status, statusText: response.statusText };
-            }
-            const json = await response.json();
-            return json;
-        } catch (err) {
-            throw new Error(`Error with status: ${err}`);
-        }
+    sendData(url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.send(JSON.stringify(this.getFullName()));
     }
 }
 
