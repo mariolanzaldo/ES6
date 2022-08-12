@@ -9,9 +9,10 @@ function check(str, pattern) {
             if (splitPattern[element] === '*' && letter === element) {
                 success.push(splitPattern[element]);
             } else {
-                if (splitPattern[element] === splitStr[letter]) {
+                if (splitPattern[element] === splitStr[letter] && letter === element) {
                     success.push(splitPattern[element]);
-                } else if (splitPattern[element] != splitStr[letter] && letter === element) {
+                } else if (splitPattern[element] !== splitStr[letter] && letter === element) {
+                    console.log(splitStr[letter])
                     failure.push(splitPattern[element]);
                 }
             }
@@ -32,7 +33,7 @@ function test(str = 'Hello', pattern = 'Hello') {
             output = `The string: ${str} matches with the pattern ${pattern}`;
             return output;
         } else if (failure.length !== 0) {
-            output = `The string: ${str} and the pattern ${pattern} don't match since the following characters does not match: ${failure}`;
+            output = `The string: ${str} and the pattern ${pattern} don't match since the following characters do not match: ${failure}`;
             return output
         } else if (failure.length === 0) {
             output = `The pattern's length is not big enough. Thus, the string does not match`;
@@ -41,5 +42,5 @@ function test(str = 'Hello', pattern = 'Hello') {
     }
 }
 
-const output = test('Hex T', '*e* T');
+const output = test('Hex Th', '*e* *h');
 console.log(output);
