@@ -1,37 +1,27 @@
 const async = {
     getAll: async function (urlArray, callback) {
-        try {
-            const calls = [];
+        let calls = [];
 
-            for (const url of urlArray) {
-                const response = await fetch(url);
-                calls.push(response);
-            }
-
-            for (const response of calls) {
-                if (!response.ok) {
-                    throw { status: response.status, statusText: response.statusText };
-                }
-                const json = await response.json();
-                callback(json);
-            }
-        } catch (err) {
-            throw new Error(err);
+        for (const url of urlArray) {
+            calls.push(fetch(url).then(response => response.json()));
         }
+        await Promise.allSettled(calls).then(response => {
+            let callbackContext = {};
 
+            const fullfilledData = response.filter(result => result.status === 'fulfilled');
+
+            for (const element of fullfilledData) {
+                callbackContext[fullfilledData.indexOf(element) + 1] = element.value;
+            }
+            callback(callbackContext);
+        });
     }
 }
 
-function callback(response) {
-    if (Array.isArray(response)) {
-        for (const element of response) {
-            console.log(element);
-        }
-    } else if (typeof response === 'object') {
-        console.log(response);
-    }
+function callback(results) {
+    console.log(results);
 }
 
-const axCall1 = 'https://jsonplaceholder.typicode.com/todos/5';
-const axCall2 = 'https://jsonplaceholder.typicode.com/users';
+const axCall1 = 'https://jsonplaceholder.typicode.com/todos/1';
+const axCall2 = 'https://jsonplaceholder.typicode.com/users/2';
 async.getAll([axCall1, axCall2], callback);
