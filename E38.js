@@ -7,13 +7,9 @@ Hence the difference between the square of the sum of the first ten natural numb
 numbers is 3025 - 385 = 2640.
  */
 
-class Squares {
-    constructor(number = 0) {
-        if (typeof number === 'number') {
-            this.number = number;
-        } else {
-            throw new Error(`The input must be a number`)
-        }
+class SumAll {
+    constructor(number) {
+        this.number = number;
     }
 
     sum() {
@@ -36,6 +32,13 @@ class Squares {
         F(N) = N (N+1) / 2 */
         return sum
     }
+}
+
+class SumOfSquares extends SumAll {
+    constructor(number) {
+        super(number);
+        this.number = number;
+    }
 
     sumOfSquares() {
         const sumOfSquares = this.sum() * (2 * this.number + 1) / 3;
@@ -56,17 +59,32 @@ class Squares {
         [N (N + 1) / 2] [(2N + 1) / 3] */
         return sumOfSquares;
     }
+}
+
+class SquareOfSum extends SumAll {
+    constructor(number) {
+        super(number);
+        this.number = number;
+    }
 
     squareOfSum() {
         const squareOfSum = this.sum() ** 2;
         return squareOfSum;
     }
+}
+
+class Difference {
+    constructor(number) {
+        this.number = number;
+        this.sumOfSquares = new SumOfSquares(this.number);
+        this.squareOfSum = new SquareOfSum(this.number);
+    }
 
     difference() {
-        const output = Math.abs(this.sumOfSquares() - this.squareOfSum());
+        const output = Math.abs(this.sumOfSquares.sumOfSquares() - this.squareOfSum.squareOfSum());
         return output;
     }
 }
 
-const squares = new Squares(10);
-console.log(squares.difference());
+const output = new Difference(10);
+console.log(output.difference());
