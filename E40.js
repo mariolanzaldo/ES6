@@ -13,7 +13,7 @@ function combinationGenerator(array) {
                 newArray[i] === -0 ? newArray[i] = 0 : newArray[i];
                 sumNeg === -0 ? sumNeg = 0 : sumNeg;
                 output.push([newArray[i], newArray[j], sumNeg].sort((a, b) => b - a));
-            } else if (!set.has(sumNeg)) {
+            } else {
                 set.add(newArray[j]);
             }
         }
@@ -27,11 +27,7 @@ function findCombination(input) {
     let output = '';
     const combinations = combinationGenerator(input);
     for (const element of combinations) {
-        if (element === combinations[combinations.length - 1]) {
-            output += `(${element.toString()}) `
-        } else {
-            output += `(${element.toString()}), `
-        }
+        output += ` (${element.toString()})`
     }
     return output;
 }
