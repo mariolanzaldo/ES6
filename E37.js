@@ -3,8 +3,7 @@ String.prototype.exclamation = function () {
 }
 
 const add = (...arguments) => {
-    if (arguments.length === 0) return 0;
-    const sum = arguments.reduce((acc, next) => acc + next);
+    const sum = arguments.reduce((acc, next) => acc + next, 0);
     return sum;
 }
 
