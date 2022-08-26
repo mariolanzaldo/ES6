@@ -9,11 +9,35 @@ class Person {
         return fullName;
     }
 
-    sendData(url) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-        xhr.send(JSON.stringify(this.getFullName()));
+    async sendData(url) {
+
+        try {
+            const paramsString = `fullName=${this.getFullName()}`;
+            const [...searchParams] = new URLSearchParams(paramsString);
+            let urlQuery = `${url}/?`;
+            let header = new Headers();
+
+            header.append('Accept', 'application/json');
+
+            for (const [key, value] of searchParams) {
+                if (key && value) {
+                    urlQuery = `${urlQuery}${key.replace(/\s+/g, '')}=${value.replace(/\s+/g, '')}`;
+                }
+            }
+
+            let request = new Request(urlQuery, {
+                method: 'GET',
+                headers: header,
+            })
+            const response = await fetch(request);
+            if (!response.ok) {
+                throw { status: response.status, statusText: response.statusText };
+            }
+            const json = await response.json();
+            return json;
+        } catch (err) {
+            throw new Error(`Error with status: ${err}`);
+        }
     }
 }
 
