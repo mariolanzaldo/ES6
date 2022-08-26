@@ -12,9 +12,7 @@ let candidate = {
 
 const { name: { firstName, lastName } } = candidate
 
-const children = document.querySelector('#body > .info').childNodes;
-
-const [text, div1, text2, div2, text3] = children;
+const [div1, div2] = document.querySelector('#body > .info').children;
 
 div1.innerHTML = firstName;
 div2.innerHTML = candidate.printName();
