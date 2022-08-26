@@ -1,4 +1,4 @@
-const isObject = val => typeof val === 'object' && val;
+const isObject = val => typeof val === 'object';
 
 const arrayComparison = (value1, value2, key) => {
     if (value1.length === value2.length) {
@@ -16,13 +16,19 @@ function getDifference(obj1 = {}, obj2 = {}) {
     for (const key in obj1) {
         const value1 = obj1[key];
         const value2 = obj2[key];
+
         if (key in obj2) {
             if (isObject(value1) && Array.isArray(value1)) {
                 output.push(arrayComparison(value1, value2, key));
             }
             else if (isObject(value1) && !Array.isArray(obj1)) {
-                const temp = getDifference(value1, value2);
-                if (temp[0]) output.push(key);
+                if (Object.keys(value1).length > 0) {
+                    const temp = getDifference(value1, value2);
+                    console.log(temp);
+                    if (temp[0]) output.push(key);
+                } else if (Object.keys(value1).length === 0 && value2 !== value1) {
+                    output.push(key);
+                }
             }
             else if (value1 !== value2) {
                 output.push(key);
@@ -43,17 +49,17 @@ function getDifference(obj1 = {}, obj2 = {}) {
 }
 
 let obj1 = {
-    // a: 'po',
+    a: {},
     // b: true,
     c: { key: 'Jack' },
-    d: [1, 4]
+    // d: [1, 4]
 };
 
 let obj2 = {
-    a: 'p',
-    b: true,
-    c: { key: 'Jack' },
-    d: [4]
+    a: null,
+    // b: true,
+    // c: { key: 'Jack' },
+    // d: [4]
 };
 
 const output = getDifference(obj1, obj2);
