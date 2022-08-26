@@ -4,8 +4,7 @@ async function loadData(url) {
     const lastNameInput = document.querySelector('.form_control.lastName');
     const phoneInput = document.querySelector('.form_control.phone');
     const response = await fetch(url, {
-        method: 'GET',
-        headers: new Headers()
+        method: 'GET'
     });
 
     if (!response.ok) {
@@ -35,10 +34,12 @@ async function saveTr(self, ID) {
             phone: phoneInput.value
         }
 
-        const response = await fetch('./E18.json', {
+        const response = await fetch(`./E18.json/${ID}`, {
             method: 'PUT',
-            body: JSON.stringify(currentCandidate),
-            headers: new Headers()
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(currentCandidate)
         });
 
         if (!response.ok) {
@@ -71,8 +72,10 @@ async function createTr(url) {
 
     const response = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify(newCandidate),
-        headers: new Headers(),
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(newCandidate)
     });
     if (!response.ok) {
         console.error(`${{ status: response.status, statusText: response.statusText }}`);
@@ -98,10 +101,8 @@ async function removeTr(self, ID) {
         alert('You are not allowed to delete this!');
     } else {
         const element = self.closest('tr');
-        await fetch('./E18.json', {
-            method: 'DELETE',
-            headers: new Headers(),
-            body: `${ID}`
+        await fetch(`./E18.json/${ID}`, {
+            method: 'DELETE'
         });
 
         if (!response.ok) {
