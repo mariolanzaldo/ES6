@@ -1,90 +1,132 @@
-/*This program intends to find the difference between the square of the sum and the sum of the squares of the first N natural numbers
-
-The square of the sum of the first ten natural numbers is (1 + 2 + ... + 10)^2 = 3025.
-The sum of the squares of the first ten natural numbers is 1^2 + 2^2 + ... + 10^2 = 385.
-
-Hence the difference between the square of the sum of the first ten natural numbers and the sum of the squares of the first ten natural 
-numbers is 3025 - 385 = 2640.
- */
-
-class SumAll {
-    constructor(number) {
-        this.number = number;
+class Calculator {
+    constructor() {
+        this.value = 0;
+        this.history = [];
     }
 
-    sum() {
-        const sum = this.number * (this.number + 1) / 2;
-        /*Sum of 1 to N: 
-        F(N) = 1 + 2 + ... + (N-1) + N 
-        F(N+1) = 1 + 2 + ... + (N-1) + N + (N+1)
-        
-        Substracting individual members:
-        F(N) - F(N+1) = - (N+1)
-        F(N+1) = F(N) + (N+1)
-        
-        If the same equation F(N) is added in reverse: 
-        
-        F(N) = 1 + 2 + ... + (N-1) + N  +
-        F(N) = N + (N-1) + ... + 2 + 1
-        
-        2F(N) = (N+1) + (N+1) + ... + (N+1) + (N+1)
-        
-        F(N) = N (N+1) / 2 */
-        return sum
+    executeCommand(command) {
+        this.value = command.execute(this.value);
+        this.history.push(command);
+    }
+
+    undo() {
+        const command = this.history.pop();
+        this.value = command.undo(this.value);
+    }
+
+    substract(value) {
+        this.value = this.value - value;
+    }
+
+    multiply(value) {
+        this.value = this.value * value;
+    }
+
+    divide(value) {
+        this.value = this.value / value;
     }
 }
 
-class SumOfSquares extends SumAll {
-    constructor(number) {
-        super(number);
-        this.number = number;
+class AddCommand {
+    constructor(value) {
+        this.value = value;
     }
 
-    sumOfSquares() {
-        const sumOfSquares = this.sum() * (2 * this.number + 1) / 3;
-        /* F(N) = 1^2 + 2^2 + ... + N^2 
-        From this it is possible to get an expression as follows: F(N)= an^3 + bn^2 + cn + d
-        If the first four terms of the series are used F(N) = 0, F(N) = 1, F(N) = 5, F(N) = 14 and solving 
-        the system of equations will lead to: n^3/3 + n^2/2 + n/6 
-        Then: 
-        N/6 (2N^2 + 3N + 1)
-        N/6 (2N^2 + N + 2N + 1)
-        N/6 (n(2N + 1) + 1(2N + 1))
-        
-        Factorizing:
-        
-        N (2N + 1)(N + 1)/6 
-        
-        However, the sum of N consecutive numbers is given by: N (N + 1) /2. Therefore:
-        [N (N + 1) / 2] [(2N + 1) / 3] */
-        return sumOfSquares;
+    execute(currentValue) {
+        return currentValue + this.value;
+    }
+
+    undo(currentValue) {
+        return currentValue - this.value;
     }
 }
 
-class SquareOfSum extends SumAll {
-    constructor(number) {
-        super(number);
-        this.number = number;
+class SubstractCommand {
+    constructor(value) {
+        this.value = value;
     }
 
-    squareOfSum() {
-        const squareOfSum = this.sum() ** 2;
-        return squareOfSum;
-    }
-}
-
-class Difference {
-    constructor(number) {
-        this.number = number;
-        this.sumOfSquares = new SumOfSquares(this.number);
-        this.squareOfSum = new SquareOfSum(this.number);
+    execute(currentValue) {
+        return currentValue - this.value;
     }
 
-    difference() {
-        const output = Math.abs(this.sumOfSquares.sumOfSquares() - this.squareOfSum.squareOfSum());
-        return output;
+    undo(currentValue) {
+        return currentValue + this.value;
     }
 }
 
-const output = new Difference(10);
-console.log(output.difference());
+
+class MultiplyCommand {
+    constructor(value) {
+        this.value = value;
+    }
+
+    execute(currentValue) {
+        return currentValue * this.value;
+    }
+
+    undo(currentValue) {
+        return currentValue / this.value;
+    }
+}
+
+class DivideCommand {
+    constructor(value) {
+        this.value = value;
+    }
+
+    execute(currentValue) {
+        if (this.value !== 0) {
+            return currentValue / this.value;
+        } else {
+            throw new Error('Cannot divide by 0');
+        }
+    }
+
+    undo(currentValue) {
+        return currentValue * this.value;
+    }
+}
+
+class AddAndMultiplyCommand {
+    constructor(valueToAdd, valueToMultiply) {
+        this.addCommand = new AddCommand(valueToAdd);
+        this.multiplyCommand = new MultiplyCommand(valueToMultiply);
+    }
+
+    execute(currentValue) {
+        const newValue = this.addCommand.execute(currentValue);
+        return this.multiplyCommand.execute(newValue);
+    }
+
+    undo(currentValue) {
+        const newValue = this.multiplyCommand.undo(currentValue);
+        return this.addCommand.undo(newValue);
+    }
+}
+
+class AddAndDivideCommand {
+    constructor(valueToAdd, valueToDivide) {
+        this.addCommand = new AddCommand(valueToAdd);
+        this.divideCommand = new DivideCommand(valueToDivide);
+    }
+
+    execute(currentValue) {
+        const newValue = this.addCommand.execute(currentValue);
+        return this.divideCommand.execute(newValue);
+    }
+
+    undo(currentValue) {
+        const newValue = this.divideCommand.undo(currentValue);
+        return this.addCommand.undo(newValue);
+    }
+}
+
+const calculator = new Calculator();
+// calculator.executeCommand(new AddCommand(10));
+// calculator.executeCommand(new MultiplyCommand(2));
+//calculator.executeCommand(new AddAndMultiplyCommand(10, 2));
+calculator.executeCommand(new AddAndDivideCommand(10, 2));
+console.log(calculator.value);
+calculator.undo();
+console.log(calculator.value);
