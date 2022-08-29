@@ -6,22 +6,20 @@ const async = {
             calls.push(fetch(url).then(response => response.json()));
         }
         await Promise.allSettled(calls).then(response => {
-            let callbackContext = {};
+            const fulfilled = response.filter(result => result.status === 'fulfilled').map(result => result.value);
+            const rejected = response.filter(result => result.status === 'rejected').map(result => result.reason);
 
-            const fullfilledData = response.filter(result => result.status === 'fulfilled');
 
-            for (const element of fullfilledData) {
-                callbackContext[fullfilledData.indexOf(element) + 1] = element.value;
-            }
-            callback(callbackContext);
+            callback({ rejected, fulfilled });
         });
     }
 }
 
-function callback(results) {
-    console.log(results);
+function callback(context) {
+    context.fulfilled.forEach(fulfilled => fulfilled);
+    context.rejected.forEach(rejected => rejected);
 }
 
-const axCall1 = 'https://jsonplaceholder.typicode.com/todos/1';
+const axCall1 = 'https://jsonplceholder.typicode.com/todos/1';
 const axCall2 = 'https://jsonplaceholder.typicode.com/users/2';
 async.getAll([axCall1, axCall2], callback);
