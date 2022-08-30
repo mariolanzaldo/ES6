@@ -16,8 +16,8 @@ const async = {
 }
 
 function callback(context) {
-    context.fulfilled.forEach(fulfilled => fulfilled);
-    context.rejected.forEach(rejected => rejected);
+    context.fulfilled.forEach(fulfilled => console.log(fulfilled));
+    context.rejected.forEach(rejected => console.log(rejected));
 }
 
 const axCall1 = 'https://jsonplceholder.typicode.com/todos/1';
