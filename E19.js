@@ -7,14 +7,12 @@ function check(str, pattern) {
     for (let letter = 0; letter < splitStr.length; letter++) {
         for (let element = 0; element < splitPattern.length; element++) {
             if (splitPattern[element] === '*' && letter === element) {
-                success.push(splitPattern[element]);
-            } else if (splitPattern[element] === '*' && letter < element && str.length !== pattern.length) {
-                success.push(splitPattern[element]);
+                success.push(splitStr[element]);
             } else {
                 if (splitPattern[element].charAt() === splitStr[letter].charAt() && letter === element) {
-                    success.push(splitPattern[element]);
+                    success.push(splitStr[element]);
                 } else if (splitPattern[element].charAt() !== splitStr[letter].charAt() && letter === element) {
-                    failure.push(splitPattern[element]);
+                    failure.push(splitStr[element]);
                 }
             }
         }
@@ -29,13 +27,13 @@ function test(str, pattern) {
     } else {
         const { success, failure } = check(str, pattern);
 
-        if (success && success.length === str.length && failure.length === 0) {
-            return str;
+        if (success && failure.length === 0 && str.length >= pattern.length) {
+            return success;
         } else if (failure.length !== 0 || failure.length === 0) {
             return null;
         }
     }
 }
 
-const output = test('Hex', '**');
+const output = test('Hex', '*e');
 console.log(output);
