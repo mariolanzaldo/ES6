@@ -1,12 +1,15 @@
 function moveZeros(array) {
-    array.sort(function (a, b) {
-        if (a == 0 && b != 0)
-            return 1;
-        else if (b == 0 && a != 0)
-            return -1;
-        else
-            return 0;
-    });
+    let nonzeroElem = 0;
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] !== 0) {
+            array[nonzeroElem] = array[i];
+            nonzeroElem++;
+        }
+    }
+    while (nonzeroElem < array.length) {
+        array[nonzeroElem] = 0
+        nonzeroElem++;
+    }
     return array;
 }
 
