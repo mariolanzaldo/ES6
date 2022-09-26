@@ -8,7 +8,7 @@ async function loadData(url) {
     });
 
     if (!response.ok) {
-        console.error(`${{ status: response.status, statusText: response.statusText }}`);
+        err(response.status, response.statusText);
     };
 
     const data = await response.json();
@@ -43,7 +43,7 @@ async function saveTr(self, ID) {
         });
 
         if (!response.ok) {
-            console.error(`${{ status: response.status, statusText: response.statusText }}`);
+            err(response.status, response.statusText);
         }
 
         const data = await response.json();
@@ -78,7 +78,7 @@ async function createTr(url) {
         body: JSON.stringify(newCandidate)
     });
     if (!response.ok) {
-        console.error(`${{ status: response.status, statusText: response.statusText }}`);
+        err(response.status, response.statusText);
     }
 
     cleanFirstTr(tableBody.firstElementChild);
@@ -106,11 +106,15 @@ async function removeTr(self, ID) {
         });
 
         if (!response.ok) {
-            console.error(`${{ status: response.status, statusText: response.statusText }}`);
+            err(response.status, response.statusText);
         }
 
         element.remove();
     }
+}
+
+function err(status, statusText) {
+    throw new Error(`${{ status: status, statusText: statusText }}`);
 }
 
 const table = document.querySelector('._table');
