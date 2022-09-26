@@ -5,19 +5,22 @@ const async = {
         for (const url of urlArray) {
             calls.push(fetch(url).then(response => response.json()));
         }
-        await Promise.allSettled(calls).then(response => {
-            const fulfilled = response.filter(result => result.status === 'fulfilled').map(result => result.value);
-            const rejected = response.filter(result => result.status === 'rejected').map(result => result.reason);
+        await Promise.allSettled(calls).then(responses => {
+            let context = {};
 
+            for (const response in responses) {
+                context[parseInt(response) + 1] = responses[response];
+            }
 
-            callback({ rejected, fulfilled });
+            callback(context);
         });
     }
 }
 
 function callback(context) {
-    context.fulfilled.forEach(fulfilled => console.log(fulfilled));
-    context.rejected.forEach(rejected => console.log(rejected));
+    for (const key in context) {
+        console.log(context[key]);
+    }
 }
 
 const axCall1 = 'https://jsonplceholder.typicode.com/todos/1';
