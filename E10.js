@@ -13,17 +13,12 @@ class Person {
 
         try {
             const paramsString = `fullName=${this.getFullName()}`;
-            const [...searchParams] = new URLSearchParams(paramsString);
-            let urlQuery = `${url}/?`;
+            const urlQuery = new URL(url);
             let header = new Headers();
 
-            header.append('Accept', 'application/json');
+            urlQuery.searchParams.append('fullName', this.getFullName());
 
-            for (const [key, value] of searchParams) {
-                if (key && value) {
-                    urlQuery = `${urlQuery}${key.replace(/\s+/g, '')}=${value.replace(/\s+/g, '')}`;
-                }
-            }
+            header.append('Accept', 'application/json');
 
             let request = new Request(urlQuery, {
                 method: 'GET',
