@@ -10,22 +10,22 @@ class CustomRandom {
     }
 
     *generator() {
-        for (let i = 0; i < this.limit - 2; i++) {
-            this.seed = (this.seed * this.a + this.c) % this.m;
+        for (let i = 0; i < this.m; i++) {
+            this.seed = (this.a * this.seed + this.c) % this.m;
 
             if (this.seed < this.limit) {
-                this.seed = this.seed + this.min;
-                yield this.seed;
+                yield this.seed + this.min
             }
         }
 
     }
 }
 
-const randomNum = new CustomRandom(1, 20);
-const output = randomNum.generator();
-let done = false;
-while (!done) {
-    console.log(output.next().value);
-    done = output.next().done;
+const customRand = new CustomRandom(6, 10);
+const generator = customRand.generator();
+let output = generator.next();
+
+while (!output.done) {
+    console.log(output.value);
+    output = generator.next();
 }
