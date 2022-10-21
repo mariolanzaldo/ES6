@@ -30,10 +30,10 @@ function test(str, pattern) {
         if (success && failure.length === 0 && str.length >= pattern.length) {
             return success;
         } else if (failure.length !== 0 || failure.length === 0) {
-            return null;
+            return pattern;
         }
     }
 }
 
-const output = test('Hex', '*e');
+const output = test('Hex', 'x');
 console.log(output);
