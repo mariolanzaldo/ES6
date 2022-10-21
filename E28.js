@@ -12,7 +12,7 @@ const async = {
                 context[parseInt(response) + 1] = responses[response];
             }
 
-            callback(context);
+            callback.call(context);
         });
     }
 }
