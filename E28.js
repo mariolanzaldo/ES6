@@ -17,10 +17,8 @@ const async = {
     }
 }
 
-function callback(context) {
-    for (const key in context) {
-        console.log(context[key]);
-    }
+function callback() {
+    console.log(this);
 }
 
 const axCall1 = 'https://jsonplceholder.typicode.com/todos/1';
