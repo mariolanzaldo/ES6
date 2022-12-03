@@ -24,6 +24,8 @@ function check(str, pattern) {
 function test(str, pattern) {
     if (typeof str !== 'string' || typeof pattern !== 'string') {
         throw new Error(`Invalid input. Inputs must be a string`);
+    } else if (str === null || str.trim() === "") {
+        return 'Nothing to compare';
     } else {
         const { success, failure } = check(str, pattern);
 
@@ -35,5 +37,5 @@ function test(str, pattern) {
     }
 }
 
-const output = test('Hex', 'x');
+const output = test('Hex', 'H*x');
 console.log(output);
