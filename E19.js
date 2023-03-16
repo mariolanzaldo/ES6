@@ -24,18 +24,18 @@ function check(str, pattern) {
 function test(str, pattern) {
     if (typeof str !== 'string' || typeof pattern !== 'string') {
         throw new Error(`Invalid input. Inputs must be a string`);
-    } else if (str === null || str.trim() === "") {
-        return 'Nothing to compare';
+    } else if (str === null || str.trim() === "" || pattern.length > str.length) {
+        return null;
     } else {
         const { success, failure } = check(str, pattern);
 
         if (success && failure.length === 0 && str.length >= pattern.length) {
             return success;
         } else if (failure.length !== 0 || failure.length === 0) {
-            return pattern;
+            return null;
         }
     }
 }
 
-const output = test('Hex', 'H*x');
+const output = test('Hex', 'Hext');
 console.log(output);
