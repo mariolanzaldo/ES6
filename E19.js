@@ -6,13 +6,13 @@ function check(str, pattern) {
     for (let letter = 0; letter < splitStr.length; letter++) {
         let match = true;
         for (let element = 0; element < splitPattern.length; element++) {
-            if (match) {
-                if ((splitPattern[element] === '*' && splitStr[letter + element] && letter === element) || splitPattern[element] === splitStr[letter + element]) {
-                    match = true;
-                    success.push(splitStr[letter + element]);
-                }
-            } else if (!match) break;
+
+            match = match && (splitPattern[element] === '*' || splitPattern[element] === splitStr[letter + element]);
+            if (!match) break;
+
+            if (match) success.push(splitStr[letter + element]);
         }
+        // if (match) return success.push(splitPattern[letter]);
 
         if (success.length === pattern.length) {
             return success.join('');
@@ -31,5 +31,5 @@ function test(str, pattern) {
     }
 }
 
-const output = test('Hex', 'e*');
+const output = test('Hex', '**');
 console.log(output);
