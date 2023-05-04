@@ -12,7 +12,6 @@ function check(str, pattern) {
 
             if (match) success.push(splitStr[letter + element]);
         }
-        // if (match) return success.push(splitPattern[letter]);
 
         if (success.length === pattern.length) {
             return success.join('');
