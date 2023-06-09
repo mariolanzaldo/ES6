@@ -13,8 +13,8 @@ function check(str, pattern) {
             if (match) success.push(splitStr[letter + element]);
         }
 
-        if (success.length === pattern.length) {
-            return success.join('');
+        if (match) {
+            return success.slice(letter, pattern.length + letter);
         }
     }
     return null;
@@ -30,5 +30,5 @@ function test(str, pattern) {
     }
 }
 
-const output = test('Hex', '**');
+const output = test('Hex', '*x');
 console.log(output);
