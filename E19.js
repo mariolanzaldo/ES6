@@ -16,9 +16,10 @@ function check(str, pattern) {
         }
 
         if (match) {
-            return pattern.length < str.length ? success.join('') : success.slice(letter, pattern.length + letter).join('');
+            return (pattern[0] === "*" && pattern.length < str.length) ? success.slice(letter, pattern.length + letter).join('') : success.join('');
         }
     }
+
     return null;
 }
 
@@ -32,11 +33,12 @@ function test(str, pattern) {
     }
 }
 
-const output = test("Hex", "x");
-// const output = test("Hex", "e*");
-// const output = test("Hex", "ex");
-// const output = test("Hex", "H*x");
-// const output = test("Hex", "**x");
+const output = test("Hexxa", "*a"); //xa
+// const output = test("Hex", "x");  //x
+// const output = test("Hex", "e*"); //ex
+// const output = test("Hex", "ex"); //ex
+// const output = test("Hex", "H*x"); //Hex
+// const output = test("Hex", "**x"); //Hex
 // const output = test("Hex", "****");
 
 console.log(output);
