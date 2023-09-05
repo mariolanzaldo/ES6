@@ -16,7 +16,7 @@ function check(str, pattern) {
         }
 
         if (match) {
-            return (pattern[0] === "*" && pattern.length < str.length) ? success.slice(letter, pattern.length + letter).join('') : success.join('');
+            return (pattern[0] === "*" && pattern.length < str.length) ? success.slice(letter, pattern.length + letter).join('') : (pattern.length < str.length && success.length > pattern.length) ? success.slice(success.length - pattern.length, pattern.length + letter).join('') : success.join('');
         }
     }
 
@@ -33,7 +33,8 @@ function test(str, pattern) {
     }
 }
 
-const output = test("Hexxa", "*a"); //xa
+const output = test("Hexxa", "xa"); //xa
+// const output = test("Hexxa", "*a"); //xa
 // const output = test("Hex", "x");  //x
 // const output = test("Hex", "e*"); //ex
 // const output = test("Hex", "ex"); //ex
